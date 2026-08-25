@@ -14,9 +14,9 @@ class MoveActions {
     // Инициализирует драйвер TWAI. Вызвать один раз в setup().
     void init();
     
-    bool motorOn(int id);
-    bool motorOff(int id);
-    bool motorStop(int id);
+    bool MotorOn(int id);
+    bool MotorOff(int id);
+    bool MotorStop(int id);
 
     // Задать скорость мотору
     bool SetVelocity(int id, int32_t velocity);
@@ -42,7 +42,7 @@ class MoveActions {
 
 class DribblerActions{
     public:
-        void SetSpeed(int speed);
+        void SetSpeed(int16_t speed);
 };
 
 class KickActions {

@@ -66,10 +66,10 @@ void setup()
   Serial.println("I'M ALIVE!!!");
   Serial.println("I'M ALIVE!!!");
   robot.init();
-  robot.motorOn(1);
-  robot.motorOn(2);
-  robot.motorOn(3);
-  robot.motorOn(4);
+  robot.MotorOn(1);
+  robot.MotorOn(2);
+  robot.MotorOn(3);
+  robot.MotorOn(4);
   Wire.begin();
   PMD(S1, OUTPUT);
   PMD(S2, OUTPUT);

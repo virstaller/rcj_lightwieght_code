@@ -59,7 +59,7 @@ bool MoveActions::SendMessage(int id)
     }
 }
 
-bool MoveActions::motorOff(int id)
+bool MoveActions::MotorOff(int id)
 {
     _sendData[0] = 0x80;
     for (int i = 1; i < 8; i++)
@@ -67,7 +67,7 @@ bool MoveActions::motorOff(int id)
     return SendMessage(id);
 }
 
-bool MoveActions::motorOn(int id)
+bool MoveActions::MotorOn(int id)
 {
     _sendData[0] = 0x88;
     for (int i = 1; i < 8; i++)
@@ -75,7 +75,7 @@ bool MoveActions::motorOn(int id)
     return SendMessage(id);
 }
 
-bool MoveActions::motorStop(int id)
+bool MoveActions::MotorStop(int id)
 {
     _sendData[0] = 0x81;
     for (int i = 1; i < 8; i++)
@@ -105,6 +105,9 @@ void MoveActions::Drive(int32_t v1, int32_t v2, int32_t v3, int32_t v4)
 }
 
 
+void DribblerActions::SetSpeed(int16_t speed){
+
+}
 
 void KickActions::Kick()
 {
