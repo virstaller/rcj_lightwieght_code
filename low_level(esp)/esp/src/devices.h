@@ -5,44 +5,67 @@
 #include <unordered_map>
 #include <functional>
 #include <stdexcept>
+#include <algorithm>
+#include <cctype>
+#include <any>
 
-std::string toLower(std::string str);
+struct Coordinates {
+    double x = 0.0;
+    double y = 0.0;
+    double z = 0.0;
+};
 
-class Device
-{
+std::string toLower(const std::string& str);
+
+class Device {
 public:
     virtual ~Device() = default;
-    virtual void ReadData() = 0;
+    virtual std::any GetData() const = 0;
 };
 
-class Camera : public Device
-{
+class Camera : public Device {
 public:
-    void ReadData();
+    std::any GetData() const override;
+private:
+    static constexpr int RXD2 = 41;
+    static constexpr int TXD2 = 42;
+    static constexpr int LED  = 47;
 };
 
-class LineSensor : public Device
-{
+class LineSensor : public Device {
 public:
-    void ReadData();
+    std::any GetData() const override;
 };
 
-class BallSensor : public Device
-{
+class BallSensor : public Device {
 public:
-    void ReadData();
+    std::any GetData() const override;
 };
 
-class DeviceFactory
-{
+class DeviceFactory {
 public:
     using Creator = std::function<std::unique_ptr<Device>()>;
-
     DeviceFactory();
-
     std::unique_ptr<Device> create(const std::string &deviceName);
     void registerDevice(const std::string &name, Creator creator);
-
 private:
     std::unordered_map<std::string, Creator> registry;
+};
+
+class DeviceManager {
+    DeviceFactory factory;
+    std::unordered_map<std::string, std::unique_ptr<Device>> devices;
+
+public:
+    void addDevice(const std::string& name) {
+        devices[toLower(name)] = factory.create(name);
+    }
+
+    std::any GetData(const std::string& name) {
+        auto it = devices.find(toLower(name));
+        if (it == devices.end()) {
+            throw std::invalid_argument("Device not found: " + name);
+        }
+        return it->second->GetData();
+    }
 };
