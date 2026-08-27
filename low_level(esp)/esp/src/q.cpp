@@ -4,10 +4,10 @@
 
 #include "Wire.h"
 #include "actions.h"
+#include "devices.h"
 #include "driver/twai.h"
 
 MPU6050 mpu(Wire);
-
 GyverOLED<SSD1306_128x64, OLED_BUFFER> oled(0x3D);
 
 #define DWR digitalWrite

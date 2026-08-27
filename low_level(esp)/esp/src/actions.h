@@ -3,17 +3,18 @@
 #include <Arduino.h>
 #include <MPU6050_light.h>
 #include "driver/twai.h"
+#include "devices.h"
 
-
-class MoveActions {
-   public:
+class MoveActions
+{
+public:
     // txPin/rxPin - пины TWAI-контроллера ESP32.
     // mpu - ссылка на гироскоп, нужна только для driveAngleFor() (курсовая стабилизация).
     MoveActions(gpio_num_t txPin, gpio_num_t rxPin, MPU6050 &mpu);
 
     // Инициализирует драйвер TWAI. Вызвать один раз в setup().
     void init();
-    
+
     bool MotorOn(int id);
     bool MotorOff(int id);
     bool MotorStop(int id);
@@ -24,9 +25,9 @@ class MoveActions {
     // Задать скорости всем четырём моторам сразу.
     void Drive(int32_t v1, int32_t v2, int32_t v3, int32_t v4);
     // Езда в точку с направлением angle
-    void GoToPoint(int16_t x, int16_t y, int8_t angle);
+    void GoToPoint(Coordinates coords, float head_angle);
 
-   private:
+private:
     bool SendMessage(int id);
 
     gpio_num_t _txPin;
@@ -39,16 +40,18 @@ class MoveActions {
     static constexpr bool kDebug = false;
 };
 
-
-class DribblerActions{
-    public:
-        void SetSpeed(int16_t speed);
+class DribblerActions
+{
+public:
+    void SetSpeed(int16_t speed);
 };
 
-class KickActions {
+class KickActions
+{
 public:
     bool is_ball_in;
     void Kick();
+
 private:
     unsigned long time;
     unsigned long last_kick_time;

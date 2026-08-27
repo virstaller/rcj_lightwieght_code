@@ -5,6 +5,8 @@ MoveActions::MoveActions(gpio_num_t txPin, gpio_num_t rxPin, MPU6050 &mpu)
 {
 }
 
+DeviceManager deviceManager;
+
 void MoveActions::init()
 {
     twai_general_config_t g_config = TWAI_GENERAL_CONFIG_DEFAULT(_txPin, _rxPin, TWAI_MODE_NORMAL);
@@ -96,7 +98,7 @@ bool MoveActions::SetVelocity(int id, int32_t velocity)
     return SendMessage(id);
 }
 
-void MoveActions::Drive(int32_t v1, int32_t v2, int32_t v3, int32_t v4)
+void MoveActions::SetVelocityAllMotors(int32_t v1, int32_t v2, int32_t v3, int32_t v4)
 {
     SetVelocity(1, v2);
     SetVelocity(2, v3);
@@ -104,9 +106,13 @@ void MoveActions::Drive(int32_t v1, int32_t v2, int32_t v3, int32_t v4)
     SetVelocity(4, v1);
 }
 
+void MoveActions::GoToPoint(Coordinates, float head_angle)
+{
+    
+}
 
-void DribblerActions::SetSpeed(int16_t speed){
-
+void DribblerActions::SetSpeed(int16_t speed)
+{
 }
 
 void KickActions::Kick()
@@ -115,7 +121,8 @@ void KickActions::Kick()
     {
         time = millis();
         digitalWrite(26, 1);
-        while (millis() - time < 100);
+        while (millis() - time < 100)
+            ;
         digitalWrite(26, 0);
         last_kick_time = millis();
     }
